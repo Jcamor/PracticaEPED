@@ -10,6 +10,8 @@ public class WordListN {
 	public WordListN(int size) {
 		
 		List<String> ListaWN = new List<String>();
+		ListaWN.insert(1, "Hola");
+		System.out.println(ListaWN.get(1));
 		// Crear una lista para trabajar
 		
 	}
