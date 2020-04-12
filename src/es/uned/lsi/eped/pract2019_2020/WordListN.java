@@ -12,6 +12,7 @@ public class WordListN {
 		List<String> ListaWN = new List<String>();
 		ListaWN.insert(1, "Hola");
 		System.out.println(ListaWN.get(1));
+		System.out.println();
 		// Crear una lista para trabajar
 		
 	}
