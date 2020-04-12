@@ -10,12 +10,17 @@ public class WordListN {
 	public WordListN(int size) {
 		
 		List<String> ListaWN = new List<String>();
+		// Crear una lista para trabajar
 		
 	}
 	
-	public void add(String word) {...}
+	public void add(String word) {
+		//...
+		}
 	
-	public int getWordSize() {...}
+	public int getWordSize() {
+		//...
+		}
 	
 	public String toString() {
 		StringBuilder salida = new StringBuilder();
@@ -29,7 +34,7 @@ public class WordListN {
 			/* Estas líneas dependen de la estructura escogida */
 			String word = /* Obtener la siguiente palabra */
 			/* Avanzar a la siguiente sin destruir la estructura */
-			...
+			//...
 			/* Estas líneas dependen de la estructura escogida */
 			salida.append(word);
 			if ( pos < numPalabras ) {
