@@ -11,7 +11,7 @@ public class WordListN {
 
 	public WordListN(int size) {
 		
-		this.size = size; //inicializamos size con el tamaño de la palabra
+		this.size = size; //inicializamos size con el tamaño de la palabra	
 		this.wordListN = new List<String>();
 				
 	}

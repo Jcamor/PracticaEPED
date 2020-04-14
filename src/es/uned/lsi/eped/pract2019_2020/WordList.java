@@ -10,7 +10,7 @@ public class WordList {
 		this.wordList = new List<WordListN>();
 	}
 	
-	public void add(String word) {
+	public void add(String word) { //No lo tengo claro y creo q no es asi 
 
 		WordListN listaPalabras = new WordListN(word.length());
 		wordList.insert(word.length(), listaPalabras);
