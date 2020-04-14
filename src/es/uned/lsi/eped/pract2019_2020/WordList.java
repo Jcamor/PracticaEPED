@@ -10,7 +10,12 @@ public class WordList {
 		this.wordList = new List<WordListN>();
 	}
 	
-	public void add(String word) {...}
+	public void add(String word) {
+
+		WordListN listaPalabras = new WordListN(word.length());
+		wordList.insert(word.length(), listaPalabras);
+
+	}
 	
 	public String toString() {
 		StringBuilder salida = new StringBuilder();
