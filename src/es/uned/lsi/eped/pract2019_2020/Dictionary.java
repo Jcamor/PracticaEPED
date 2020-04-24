@@ -2,6 +2,8 @@ package es.uned.lsi.eped.pract2019_2020;
 
 import es.uned.lsi.eped.DataStructures.GTree;
 import es.uned.lsi.eped.DataStructures.GTreeIF;
+import es.uned.lsi.eped.DataStructures.ListIF;
+import es.uned.lsi.eped.pract2019_2020.Node.NodeType;
 
 public class Dictionary {
 
@@ -10,20 +12,35 @@ public class Dictionary {
 	/* Constructor de la clase */
 	public Dictionary() 
 	{
-		//...
+		this.dict = new GTree<Node>();
+		this.dict.setRoot(new RootNode());
 	}
 	
+	
+	public static void main(String [] args) {
+		Dictionary diccionario = new Dictionary();
+		diccionario.insert("hola");
+		
+	}
 	/* Método de inserción de una nueva palabra en el diccionario */
 	public void insert(String word) 
 	{
 		/* Insertamos la palabra a partir del nodo raíz del árbol */
+	
 		insertInTree(word,this.dict);
+
 	}
 	
 	/* Método privado llamado por el anterior */
 	private void insertInTree(String word, GTreeIF<Node> node) 
 	{
-		//...
+	//	ListIF<GTreeIF<Node>> listaHijos = node.getChildren();
+	//	if (listaHijos.isEmpty()) {
+		
+		for (int i=0; i<word.length(); i++) {
+			node.setRoot(new LetterNode(word.charAt(i)));
+			node.addChild((i+1), node);
+		}
 	}
 
 	/* Método público de búsqueda de todas las palabras a partir de una secuencia */

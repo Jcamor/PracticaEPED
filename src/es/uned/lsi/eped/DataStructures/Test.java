@@ -15,9 +15,9 @@ public class Test {
 		L.insert(5, 5);
 		L.insert(6, 6);
 		L.set(5, 10);
-		L.insert(10,1);
-		L.insert(11,2);
-		L.insert(19,9);
+		L.insert(7,1);
+		L.insert(8,2);
+		L.insert(9,9);
 		System.out.print("Recorrido copia de la lista mediante iterador: ");
 		ListIF<Integer> copyList = new List<Integer>(L);
 		System.out.println(copyList.size()+" elementos.");
