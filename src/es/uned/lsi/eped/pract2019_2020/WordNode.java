@@ -18,4 +18,9 @@ public class WordNode extends Node {
         return NodeType.WORDNODE;
     
     }
+
+	@Override
+	public String toString() {
+		return "WordNode [nodo=" + nodo + "]";
+	}
 }

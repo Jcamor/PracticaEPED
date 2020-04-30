@@ -2,76 +2,109 @@ package es.uned.lsi.eped.pract2019_2020;
 
 import es.uned.lsi.eped.DataStructures.GTree;
 import es.uned.lsi.eped.DataStructures.GTreeIF;
-import es.uned.lsi.eped.DataStructures.ListIF;
-import es.uned.lsi.eped.pract2019_2020.Node.NodeType;
 
 public class Dictionary {
 
-	private GTree<Node> dict; /* El diccionario es un árbol general de nodos */
-	
+	protected GTree<Node> dict; /* El diccionario es un árbol general de nodos */
+
 	/* Constructor de la clase */
-	public Dictionary() 
-	{
+	public Dictionary() {
 		this.dict = new GTree<Node>();
 		this.dict.setRoot(new RootNode());
 	}
-	
-	
-	public static void main(String [] args) {
+
+	public static void main(String[] args) {
 		Dictionary diccionario = new Dictionary();
-		diccionario.insert("hola");
-		
-	}
-	/* Método de inserción de una nueva palabra en el diccionario */
-	public void insert(String word) 
-	{
-		/* Insertamos la palabra a partir del nodo raíz del árbol */
-	
-		insertInTree(word,this.dict);
+		diccionario.insert("holaperro");
 
 	}
-	
+
+	/* Método de inserción de una nueva palabra en el diccionario */
+	public void insert(String word) {
+		/* Insertamos la palabra a partir del nodo raíz del árbol */
+		System.out.println(word.length());
+
+	//	 while (word.length() > 0) {
+	//	 System.out.println(word);
+		insertInTree(word, this.dict);
+	//	 word = word.substring(1);
+	//	 }
+	//	visualizar(this.dict, word);
+
+	}
+
 	/* Método privado llamado por el anterior */
-	private void insertInTree(String word, GTreeIF<Node> node) 
-	{
-	//	ListIF<GTreeIF<Node>> listaHijos = node.getChildren();
-	//	if (listaHijos.isEmpty()) {
-		
-		for (int i=0; i<word.length(); i++) {
-			node.setRoot(new LetterNode(word.charAt(i)));
-			node.addChild((i+1), node);
+	private void insertInTree(String word, GTreeIF<Node> node) {
+		int sizehijo;
+	//	while (word.length() > 0) {
+			GTree<Node> hTree = new GTree<Node>();
+			hTree.setRoot(new LetterNode(word.charAt(0)));
+			GTree<Node> oTree = new GTree<Node>();
+			oTree.setRoot(new LetterNode(word.charAt(1)));
+			GTree<Node> lTree = new GTree<Node>();
+			lTree.setRoot(new LetterNode(word.charAt(2)));
+			
+			sizehijo = oTree.getNumChildren() + 1;
+			oTree.addChild(sizehijo, lTree);
+			
+			sizehijo = hTree.getNumChildren() + 1;
+			hTree.addChild(sizehijo, oTree);
+			
+			visualizar(hTree,word);
+			visualizar(oTree,word);
+			visualizar(lTree,word);
+	//	}
+
+	}
+
+	public void visualizar(GTreeIF<Node> node, /* GTreeIF<Node> hijoTree, */ String word) {
+		System.out.println();
+		System.out.println("Usamos node-------------------");
+		System.out.println(node.getNumChildren() + " numero de hijos");
+		System.out.println(node.isLeaf() + " es hoja");
+
+		//for (int j = 1; j <= node.getNumChildren(); j++) {
+		if (node.getNumChildren()>0) {
+			System.out.println(node.getChild(1).getRoot() + " hijo posición " + 1);
 		}
+		System.out.println(word + " palabra que entra ");
+		System.out.println(node.getRoot().toString());
+		System.out.println(node.getHeight() + " Altura del arbol");
+		System.out.println();
+		/*
+		 * System.out.println("Usamos hijoTree-------------------");
+		 * System.out.println(hijoTree.getNumChildren() + " numero de hijos");
+		 * System.out.println(hijoTree.isLeaf() + " es hoja"); System.out.println(word +
+		 * " palabra que entra "); System.out.println(hijoTree.getRoot().toString());
+		 */
+
 	}
 
 	/* Método público de búsqueda de todas las palabras a partir de una secuencia */
-	public WordList search(String sequence) 
-	{
-		WordList salida = new WordList();           /* Variable donde construiremos la salida */
-		searchInTree(sequence,"",this.dict,salida); /* Construimos la salida recursivamente */
+	public WordList search(String sequence) {
+		WordList salida = new WordList(); /* Variable donde construiremos la salida */
+		searchInTree(sequence, "", this.dict, salida); /* Construimos la salida recursivamente */
 		return salida;
 	}
-	
+
 	/* Método privado llamado por el anterior */
-	private void searchInTree(String sequence, String word,
-							  GTreeIF<Node> node, WordList salida) 
-	{
-								  //...
+	private void searchInTree(String sequence, String word, GTreeIF<Node> node, WordList salida) {
+		// ...
 	}
-	
-	/* Método público de búsqueda de todas las palabras de tamaño size a partir de una secuencia */
-	public WordListN search(String sequence, int size) 
-	{
-		WordListN salida = new WordListN(size);           /* Variable donde construiremos la salida */
-		searchInTreeN(sequence,"",this.dict,salida,size); /* Construimos la salida recursivamente */
+
+	/*
+	 * Método público de búsqueda de todas las palabras de tamaño size a partir de
+	 * una secuencia
+	 */
+	public WordListN search(String sequence, int size) {
+		WordListN salida = new WordListN(size); /* Variable donde construiremos la salida */
+		searchInTreeN(sequence, "", this.dict, salida, size); /* Construimos la salida recursivamente */
 		return salida;
 	}
-	
+
 	/* Método privado llamado por el anterior */
-	private void searchInTreeN(String sequence, String word,
-							   GTreeIF<Node> node, WordListN salida,
-							   int size) 
-	{
-		//...
+	private void searchInTreeN(String sequence, String word, GTreeIF<Node> node, WordListN salida, int size) {
+		// ...
 	}
-	
+
 }

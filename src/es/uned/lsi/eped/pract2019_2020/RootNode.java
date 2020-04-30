@@ -18,4 +18,11 @@ public class RootNode extends Node {
 		return nodo;
 	}
 
+	@Override
+	public String toString() {
+		return "RootNode [nodo=" + nodo + "]";
+	}
+	
+	
+
 }
