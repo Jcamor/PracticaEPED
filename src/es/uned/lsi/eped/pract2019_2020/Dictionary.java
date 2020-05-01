@@ -15,7 +15,10 @@ public class Dictionary {
 
 	public static void main(String[] args) {
 		Dictionary diccionario = new Dictionary();
-		diccionario.insert("abcdefg");
+		diccionario.insert("perroa1");
+		diccionario.insert("perrob2");
+		diccionario.insert("perroc3");
+		diccionario.insert("perrod4");
 
 	}
 
@@ -23,68 +26,75 @@ public class Dictionary {
 	public void insert(String word) {
 		/* Insertamos la palabra a partir del nodo raíz del árbol */
 		System.out.println(word.length());
-
-		// while (word.length() > 0) {
-
 		System.out.println(word);
+
+		LetterNode letra;
+
 		insertInTree(word, this.dict);
+		/*
+		 * if (dict.isEmpty()) {
+		 * 
+		 * }
+		 */
+		for (int i = 1; i <= dict.getFanOut(); i++) {
+			letra = (LetterNode) dict.getChild(i).getRoot();
+
+			if (letra.getNodo() == 'a'/* word.charAt(0) */) {
+				System.out.println(letra.getNodo());
+				System.out.println(letra + " si repetida entra por la a");
+			} else {
+				System.out.println(letra.getNodo());
+				System.out.println(letra + " no repetida");
+				// insertInTree(word, this.dict);
+
+			}
+		}
+
+		// }
+
 		visualizar(this.dict, word);
-		System.out.println(dict.getFanOut());
-		System.out.println(dict.getRoot());
-		System.out.println(dict.getChild(1).getRoot());
-		System.out.println(dict.getChild(1).getChild(1).getRoot());
-		System.out.println(dict.getChild(1).getChild(1).getChild(1).getRoot());
-		System.out.println(dict.getChild(1).getChild(1).getChild(1).getChild(1).getRoot());
-		System.out.println(dict.getChild(1).getChild(1).getChild(1).getChild(1).getChild(1).getRoot());
-		System.out.println(dict.getChild(1).getChild(1).getChild(1).getChild(1).getChild(1).getChild(1).getRoot());
-		System.out.println(dict.getChild(1).getChild(1).getChild(1).getChild(1).getChild(1).getChild(1).getChild(1).getRoot());
-		System.out.println(dict.getChild(1).getChild(1).getChild(1).getChild(1).getChild(1).getChild(1).getChild(1).getChild(1).getRoot());
+		for (int i = 1; i <= dict.getFanOut(); i++) {
+			System.out.println(dict.getFanOut());
+			System.out.println(dict.getRoot());
+			System.out.println(dict.getChild(i).getRoot());
+			System.out.println(dict.getChild(i).getChild(1).getRoot());
+			System.out.println(dict.getChild(i).getChild(1).getChild(1).getRoot());
+			System.out.println(dict.getChild(i).getChild(1).getChild(1).getChild(1).getRoot());
+			System.out.println(dict.getChild(i).getChild(1).getChild(1).getChild(1).getChild(1).getRoot());
+			System.out.println(dict.getChild(i).getChild(1).getChild(1).getChild(1).getChild(1).getChild(1).getRoot());
+			System.out.println(
+					dict.getChild(i).getChild(1).getChild(1).getChild(1).getChild(1).getChild(1).getChild(1).getRoot());
+			System.out.println(dict.getChild(i).getChild(1).getChild(1).getChild(1).getChild(1).getChild(1).getChild(1)
+					.getChild(1).getRoot());
+		}
 	}
 
 	/* Método privado llamado por el anterior */
 	private void insertInTree(String word, GTreeIF<Node> node) {
+
 		GTree<Node> nuevo = new GTree<Node>();
+
 		if (word.length() == 0) {
+
 			nuevo.setRoot(new WordNode());
 			node.addChild((node.getNumChildren() + 1), nuevo);
+
 		} else {
+
 			nuevo.setRoot(new LetterNode(word.charAt(0)));
 			node.addChild((node.getNumChildren() + 1), nuevo);
 			insertInTree(word.substring(1), nuevo);
+
 		}
-
-		
-		
-	
-	// word = word.substring(1);
-
-	// node = node.getChild(1);
-	visualizar(node, word);
-
-		// while (word.length() > 0) {
-		/*
-		 * GTree<Node> hTree = new GTree<Node>(); hTree.setRoot(new
-		 * LetterNode(word.charAt(0))); GTree<Node> oTree = new GTree<Node>();
-		 * oTree.setRoot(new LetterNode(word.charAt(1))); GTree<Node> lTree = new
-		 * GTree<Node>(); lTree.setRoot(new LetterNode(word.charAt(2)));
-		 * 
-		 * sizehijo = oTree.getNumChildren() + 1; oTree.addChild(sizehijo, lTree);
-		 * 
-		 * sizehijo = hTree.getNumChildren() + 1; hTree.addChild(sizehijo, oTree);
-		 * 
-		 * visualizar(hTree,word); visualizar(oTree,word); visualizar(lTree,word);
-		 */
-		// }
 
 	}
 
-	public void visualizar(GTreeIF<Node> node, /* GTreeIF<Node> hijoTree, */ String word) {
+	public void visualizar(GTreeIF<Node> node, String word) {
 		System.out.println();
 		System.out.println("Usamos node-------------------");
 		System.out.println(node.getNumChildren() + " numero de hijos");
 		System.out.println(node.isLeaf() + " es hoja");
 
-		// for (int j = 1; j <= node.getNumChildren(); j++) {
 		if (node.getNumChildren() > 0) {
 			System.out.println(node.getChild(1).getRoot() + " hijo posición " + 1);
 		}
@@ -92,12 +102,6 @@ public class Dictionary {
 		System.out.println(node.getRoot().toString());
 		System.out.println(node.getHeight() + " Altura del arbol");
 		System.out.println();
-		/*
-		 * System.out.println("Usamos hijoTree-------------------");
-		 * System.out.println(hijoTree.getNumChildren() + " numero de hijos");
-		 * System.out.println(hijoTree.isLeaf() + " es hoja"); System.out.println(word +
-		 * " palabra que entra "); System.out.println(hijoTree.getRoot().toString());
-		 */
 
 	}
 
@@ -128,4 +132,23 @@ public class Dictionary {
 		// ...
 	}
 
+	private void insertInTreeOriginal(String word, GTreeIF<Node> node) {
+
+		GTree<Node> nuevo = new GTree<Node>();
+
+		if (word.length() == 0) {
+
+			nuevo.setRoot(new WordNode());
+			node.addChild((node.getNumChildren() + 1), nuevo);
+
+		} else {
+
+			nuevo.setRoot(new LetterNode(word.charAt(0)));
+			node.addChild((node.getNumChildren() + 1), nuevo);
+			insertInTree(word.substring(1), nuevo);
+
+		}
+
+	}
+	
 }

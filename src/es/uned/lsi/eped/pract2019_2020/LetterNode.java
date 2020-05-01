@@ -17,8 +17,8 @@ public class LetterNode extends Node {
 	public char getNodo() {
 		return nodo;
 	}
+	
 
-	@Override
 	public String toString() {
 		return "LetterNode [nodo=" + nodo + "]";
 	}
