@@ -1,11 +1,14 @@
 package es.uned.lsi.eped.pract2019_2020;
 
+import java.util.Scanner;
+
 import es.uned.lsi.eped.DataStructures.GTree;
 import es.uned.lsi.eped.DataStructures.GTreeIF;
 
 public class Dictionary {
 
 	protected GTree<Node> dict; /* El diccionario es un árbol general de nodos */
+	private char c;
 
 	/* Constructor de la clase */
 	public Dictionary() {
@@ -15,6 +18,7 @@ public class Dictionary {
 
 	public static void main(String[] args) {
 		Dictionary diccionario = new Dictionary();
+		// diccionario.insert("");
 		diccionario.insert("perroa1");
 		diccionario.insert("perrob2");
 		diccionario.insert("perroc3");
@@ -28,29 +32,7 @@ public class Dictionary {
 		System.out.println(word.length());
 		System.out.println(word);
 
-		LetterNode letra;
-
 		insertInTree(word, this.dict);
-		/*
-		 * if (dict.isEmpty()) {
-		 * 
-		 * }
-		 */
-		for (int i = 1; i <= dict.getFanOut(); i++) {
-			letra = (LetterNode) dict.getChild(i).getRoot();
-
-			if (letra.getNodo() == 'a'/* word.charAt(0) */) {
-				System.out.println(letra.getNodo());
-				System.out.println(letra + " si repetida entra por la a");
-			} else {
-				System.out.println(letra.getNodo());
-				System.out.println(letra + " no repetida");
-				// insertInTree(word, this.dict);
-
-			}
-		}
-
-		// }
 
 		visualizar(this.dict, word);
 		for (int i = 1; i <= dict.getFanOut(); i++) {
@@ -73,17 +55,44 @@ public class Dictionary {
 	private void insertInTree(String word, GTreeIF<Node> node) {
 
 		GTree<Node> nuevo = new GTree<Node>();
+		String entradaTeclado;
+		Scanner entradaEscaner = new Scanner (System.in);
+		// System.out.println(node.getFanOut());
 
-		if (word.length() == 0) {
-
+		if (word.length() != 0) {
+			if (node.getNumChildren() != 0) {
+				System.out.println("Estoy en hijo != 0");
+				System.out.println(node.getNumChildren()+" numero de hijos");
+				
+				for (int i = 1; i <= node.getNumChildren() && word.length() != 0; i++) {
+				
+					if ((boolean) node.getChild(i).getRoot().equals(word.charAt(0))) {
+						insertInTree(word.substring(1), node.getChild(i));
+						System.out.println("Estoy en hijo igual q letra" + i);
+						 
+						 entradaTeclado = entradaEscaner.nextLine (); 
+					} else {
+						nuevo.setRoot(new LetterNode(word.charAt(0)));
+						node.addChild((node.getNumChildren() + 1), nuevo);
+						insertInTree(word.substring(1), nuevo);
+						System.out.println("Estoy en hijo distinto que la letra " + i);
+						entradaTeclado = entradaEscaner.nextLine (); 
+					}
+				}
+			}
+			if (node.getNumChildren() == 0) {
+				nuevo.setRoot(new LetterNode(word.charAt(0)));
+				node.addChild((node.getNumChildren() + 1), nuevo);
+				System.out.println("Estoy hijo 0 delante de la recursividad");
+				insertInTree(word.substring(1), nuevo);
+				System.out.println("Estoy en hijo = 0");
+				entradaTeclado = entradaEscaner.nextLine (); 
+			}
+		} else {
 			nuevo.setRoot(new WordNode());
 			node.addChild((node.getNumChildren() + 1), nuevo);
-
-		} else {
-
-			nuevo.setRoot(new LetterNode(word.charAt(0)));
-			node.addChild((node.getNumChildren() + 1), nuevo);
-			insertInTree(word.substring(1), nuevo);
+			System.out.println("Estoy en word = 0");
+			entradaTeclado = entradaEscaner.nextLine (); 
 
 		}
 
@@ -150,5 +159,5 @@ public class Dictionary {
 		}
 
 	}
-	
+
 }
