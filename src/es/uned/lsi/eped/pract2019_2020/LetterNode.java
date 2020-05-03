@@ -19,6 +19,10 @@ public class LetterNode extends Node {
 	}
 	
 
+//	public String toString() {
+//		return " "+nodo;
+//	}
+        
 	public String toString() {
 		return "LetterNode [nodo=" + nodo + "]";
 	}

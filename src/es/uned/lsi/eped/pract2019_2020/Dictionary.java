@@ -19,10 +19,10 @@ public class Dictionary {
 	public static void main(String[] args) {
 		Dictionary diccionario = new Dictionary();
 		// diccionario.insert("");
-		diccionario.insert("perroa1");
-		diccionario.insert("perrob2");
-		diccionario.insert("perroc3");
-		diccionario.insert("perrod4");
+		diccionario.insert("perroaa");
+		diccionario.insert("perrobb");
+		diccionario.insert("perrocc");
+		diccionario.insert("perrodd");
 
 	}
 
@@ -36,7 +36,7 @@ public class Dictionary {
 
 		visualizar(this.dict, word);
 		for (int i = 1; i <= dict.getFanOut(); i++) {
-			System.out.println(dict.getFanOut());
+			System.out.println("Anchura del arbol: "+dict.getFanOut());
 			System.out.println(dict.getRoot());
 			System.out.println(dict.getChild(i).getRoot());
 			System.out.println(dict.getChild(i).getChild(1).getRoot());
@@ -54,49 +54,101 @@ public class Dictionary {
 	/* Método privado llamado por el anterior */
 	private void insertInTree(String word, GTreeIF<Node> node) {
 
-		GTree<Node> nuevo = new GTree<Node>();
-		String entradaTeclado;
-		Scanner entradaEscaner = new Scanner (System.in);
-		// System.out.println(node.getFanOut());
+		GTreeIF<Node> nuevo = new GTree<Node>();
 
-		if (word.length() != 0) {
-			if (node.getNumChildren() != 0) {
-				System.out.println("Estoy en hijo != 0");
-				System.out.println(node.getNumChildren()+" numero de hijos");
-				
-				for (int i = 1; i <= node.getNumChildren() && word.length() != 0; i++) {
-				
-					if ((boolean) node.getChild(i).getRoot().equals(word.charAt(0))) {
-						insertInTree(word.substring(1), node.getChild(i));
-						System.out.println("Estoy en hijo igual q letra" + i);
-						 
-						 entradaTeclado = entradaEscaner.nextLine (); 
-					} else {
-						nuevo.setRoot(new LetterNode(word.charAt(0)));
-						node.addChild((node.getNumChildren() + 1), nuevo);
-						insertInTree(word.substring(1), nuevo);
-						System.out.println("Estoy en hijo distinto que la letra " + i);
-						entradaTeclado = entradaEscaner.nextLine (); 
-					}
-				}
-			}
-			if (node.getNumChildren() == 0) {
-				nuevo.setRoot(new LetterNode(word.charAt(0)));
-				node.addChild((node.getNumChildren() + 1), nuevo);
-				System.out.println("Estoy hijo 0 delante de la recursividad");
-				insertInTree(word.substring(1), nuevo);
-				System.out.println("Estoy en hijo = 0");
-				entradaTeclado = entradaEscaner.nextLine (); 
-			}
-		} else {
+		if (word.length() == 0) {
+
 			nuevo.setRoot(new WordNode());
 			node.addChild((node.getNumChildren() + 1), nuevo);
-			System.out.println("Estoy en word = 0");
-			entradaTeclado = entradaEscaner.nextLine (); 
+
+		} else {
+
+			nuevo.setRoot(new LetterNode(word.charAt(0)));
+			node.addChild((node.getNumChildren() + 1), nuevo);
+			insertInTree(word.substring(1), nuevo);
+
+		}
+	}		
+		
+		
+		/*		GTreeIF<Node> puntero;
+//		String entradaTeclado;
+		// Scanner entradaEscaner = new Scanner (System.in);
+		
+		while ((node.getNumChildren()!= 0) && (word.length()!=0)) {
+			for (int i=1; i<=node.getNumChildren();i++) {
+				if (node.getChild(i).getRoot().toString().equalsIgnoreCase(("LetterNode [nodo=" + word + "]"))) {
+					System.out.println(
+							"la letra es igual " + node.getChild(1).getRoot().toString() + " a la de la palabra " + word.charAt(0));
+					puntero = node.getChild(i);
+					i=node.getNumChildren();
+			}
+				nuevo = puntero;
+		}
+		
+
+		if (word.length() == 0) {
+
+			nuevo.setRoot(new WordNode());
+			node.addChild((node.getNumChildren() + 1), nuevo);
+
+		}
+		if (node.getNumChildren() == 0) {
+			nuevo.setRoot(new LetterNode(word.charAt(0)));
+			node.addChild((node.getNumChildren() + 1), nuevo);
+			insertInTree(word.substring(1), nuevo);
+		}
+		if (word.length() != 0 && node.getNumChildren() != 0) {
+			if (node.getChild(1).getRoot().toString().equalsIgnoreCase(("LetterNode [nodo=" + word + "]"))) {
+				System.out.println(
+						"la letra es igual " + node.getChild(1).getRoot().toString() + " a la de la palabra " + word.charAt(0));
+
+			} else {
+
+				nuevo.setRoot(new LetterNode(word.charAt(0)));
+				node.addChild((node.getNumChildren() + 1), nuevo);
+				insertInTree(word.substring(1), nuevo);
+			}
 
 		}
 
-	}
+		System.out.println("Número de hijos: " + node.getNumChildren() + "  " + node.getRoot().toString());
+		if (node.getRoot().toString().equalsIgnoreCase(("LetterNode [nodo=" + word + "]"))) {
+			System.out.println(
+					"la letra es igual " + node.getRoot().toString() + " a la de la palabra " + word.charAt(0));
+
+		}
+
+		/*
+		 * if (word.length() != 0) { if (node.getNumChildren() != 0) {
+		 * System.out.println("Estoy en hijo != 0");
+		 * System.out.println(node.getNumChildren()+" numero de hijos");
+		 * 
+		 * for (int i = 1; i <= node.getNumChildren() && word.length() != 0; i++) {
+		 * 
+		 * if (node.getRoot().getNodeType().equals(word.charAt(0))) {
+		 * insertInTree(word.substring(1), node.getChild(i));
+		 * System.out.println("Estoy en hijo igual q letra" + i);
+		 * 
+		 * entradaTeclado = entradaEscaner.nextLine (); } else { nuevo.setRoot(new
+		 * LetterNode(word.charAt(0))); node.addChild((node.getNumChildren() + 1),
+		 * nuevo); insertInTree(word.substring(1), nuevo);
+		 * System.out.println("Estoy en hijo distinto que la letra " + i);
+		 * entradaTeclado = entradaEscaner.nextLine (); } } } if (node.getNumChildren()
+		 * == 0) { nuevo.setRoot(new LetterNode(word.charAt(0)));
+		 * node.addChild((node.getNumChildren() + 1), nuevo);
+		 * System.out.println("Estoy hijo 0 delante de la recursividad");
+		 * insertInTree(word.substring(1), nuevo);
+		 * System.out.println("Estoy en hijo = 0"); entradaTeclado =
+		 * entradaEscaner.nextLine (); } } else { nuevo.setRoot(new WordNode());
+		 * node.addChild((node.getNumChildren() + 1), nuevo);
+		 * System.out.println("Estoy en word = 0"); entradaTeclado =
+		 * entradaEscaner.nextLine ();
+		 * 
+		 * }
+		 */
+
+	
 
 	public void visualizar(GTreeIF<Node> node, String word) {
 		System.out.println();
