@@ -2,9 +2,9 @@ package es.uned.lsi.eped.pract2019_2020;
 
 public class LetterNode extends Node {
     
-	private char nodo;
+	private String nodo;
 	  
-    public LetterNode(char c) {
+    public LetterNode(String c) {
 		nodo = c;
 	}
 
@@ -14,7 +14,7 @@ public class LetterNode extends Node {
         return NodeType.LETTERNODE;
     }
 
-	public char getNodo() {
+	public String getNodo() {
 		return nodo;
 	}
 	

@@ -7,4 +7,5 @@ public abstract class Node {
 	
 	/* Prescribe un getter que devuelve el tipo de nodo */
 	public abstract NodeType getNodeType();
+	public abstract String getNodo();
 }

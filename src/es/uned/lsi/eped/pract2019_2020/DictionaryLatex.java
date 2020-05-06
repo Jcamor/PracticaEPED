@@ -55,8 +55,11 @@ public class DictionaryLatex extends Dictionary {
 			}else {
 				GTreeIF<Node> hijoActual = node.getChild(pos);
 				LetterNode nodoLetra = (LetterNode)hijoActual.getRoot();
+				
 				/* Invocar el getter de LetterNode que nos devuelve el carácter */
-				System.out.print("[." + nodoLetra.getNodeType() + " ");
+				
+				System.out.print("[." + nodoLetra.getNodo() + " ");
+			//	System.out.print("[." + nodoLetra.getNodeType() + " ");
 				exportTree(hijoActual);
 				System.out.print(" ] ");
 			}
