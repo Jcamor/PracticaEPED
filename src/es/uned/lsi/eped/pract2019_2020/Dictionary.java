@@ -26,13 +26,13 @@ public class Dictionary {
 	private void insertInTree(String word, GTreeIF<Node> node) {
 
 		GTreeIF<Node> nuevo = new GTree<Node>();
-		// GTreeIF<Node> nodoHijo = new GTree<Node>();
 		boolean noEncontrado = true;
+		int posicion = 1;
 
 		if (word.length() == 0) {
 
 			nuevo.setRoot(new WordNode());
-			node.addChild((node.getNumChildren() + 1), nuevo);
+			node.addChild(1, nuevo);
 
 		} else {
 
@@ -45,24 +45,38 @@ public class Dictionary {
 						nuevo = node.getChild(i);
 						noEncontrado = false;
 						break;
-						
+
+					}
+					if (node.getChild(i).getRoot().getNodo().compareToIgnoreCase(String.valueOf(word.charAt(0))) > 0) {
+						if (node.getChild(i).isLeaf()) {
+							posicion = i + 1;
+
+						} else {
+							posicion = i;
+						}
+						noEncontrado = true;
+						break;
+
+					} else {
+						posicion = node.getNumChildren() + 1;
 					}
 
 				}
 				if (noEncontrado) {
 					nuevo.setRoot(new LetterNode(String.valueOf(word.charAt(0))));
-					node.addChild((node.getNumChildren() + 1), nuevo);
+					node.addChild(posicion, nuevo);
 				}
 
 			} else {
 
 				nuevo.setRoot(new LetterNode(String.valueOf(word.charAt(0))));
-				node.addChild((node.getNumChildren() + 1), nuevo);
+				node.addChild(posicion, nuevo);
+				//node.addChild((node.getNumChildren() + 1), nuevo);
 			}
 			insertInTree(word.substring(1), nuevo);
 		}
 	}
-	
+
 	/* Método público de búsqueda de todas las palabras a partir de una secuencia */
 	public WordList search(String sequence) {
 		WordList salida = new WordList(); /* Variable donde construiremos la salida */
@@ -88,5 +102,44 @@ public class Dictionary {
 	/* Método privado llamado por el anterior */
 	private void searchInTreeN(String sequence, String word, GTreeIF<Node> node, WordListN salida, int size) {
 		// ...
+	}
+
+	private void insertInTreefunciona(String word, GTreeIF<Node> node) {
+
+		GTreeIF<Node> nuevo = new GTree<Node>();
+		boolean noEncontrado = true;
+
+		if (word.length() == 0) {
+
+			nuevo.setRoot(new WordNode());
+			node.addChild((node.getNumChildren() + 1), nuevo);
+
+		} else {
+
+			if (node.getNumChildren() > 0) {
+
+				for (int i = 1; i <= node.getNumChildren(); i++) {
+
+					if (node.getChild(i).getRoot().getNodo().equals(String.valueOf(word.charAt(0)))) {
+
+						nuevo = node.getChild(i);
+						noEncontrado = false;
+						break;
+
+					}
+
+				}
+				if (noEncontrado) {
+					nuevo.setRoot(new LetterNode(String.valueOf(word.charAt(0))));
+					node.addChild((node.getNumChildren() + 1), nuevo);
+				}
+
+			} else {
+
+				nuevo.setRoot(new LetterNode(String.valueOf(word.charAt(0))));
+				node.addChild((node.getNumChildren() + 1), nuevo);
+			}
+			insertInTree(word.substring(1), nuevo);
+		}
 	}
 }
