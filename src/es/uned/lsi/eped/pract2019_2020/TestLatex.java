@@ -12,7 +12,7 @@ public class TestLatex {
 		cola.enqueue("alcantarilla");
 		cola.enqueue("alcantarillado");
 		cola.enqueue("bicicleta");
-		cola.enqueue("alicates");/*
+		cola.enqueue("alicates");
 		cola.enqueue("alcazar");
 		cola.enqueue("alicatado");
 		cola.enqueue("alfeizar");
@@ -20,10 +20,7 @@ public class TestLatex {
 		cola.enqueue("bisiesto");
 		cola.enqueue("alfombra");
 		cola.enqueue("bisectriz");
-		cola.enqueue("perroaa");
-		cola.enqueue("perrobb");
-		cola.enqueue("perrocc");
-		cola.enqueue("perrodd");*/
+		
 		diccionario.export(cola,"test.tex");
 	}
 
