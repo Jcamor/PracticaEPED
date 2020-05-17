@@ -20,6 +20,8 @@ public class TestLatex {
 		cola.enqueue("bisiesto");
 		cola.enqueue("alfombra");
 		cola.enqueue("bisectriz");
+		cola.enqueue("anfibio");
+		cola.enqueue("  ");
 		
 		diccionario.export(cola,"test.tex");
 	}

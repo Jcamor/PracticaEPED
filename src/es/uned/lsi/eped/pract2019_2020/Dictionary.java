@@ -4,6 +4,8 @@ import es.uned.lsi.eped.DataStructures.GTree;
 import es.uned.lsi.eped.DataStructures.GTreeIF;
 import es.uned.lsi.eped.DataStructures.List;
 import es.uned.lsi.eped.DataStructures.ListIF;
+import es.uned.lsi.eped.DataStructures.Queue;
+import es.uned.lsi.eped.DataStructures.QueueIF;
 
 public class Dictionary {
 
@@ -15,11 +17,33 @@ public class Dictionary {
 		this.dict = new GTree<Node>();
 		this.dict.setRoot(new RootNode());
 	}
+	
+	public static void main(String[] args) {
+		
+		Dictionary dict = new Dictionary();
+		
+		dict.insert("anfibio");
+		dict.insert("alcantarilla");
+		dict.insert("alcantarillado");
+		dict.insert("bicicleta");
+		dict.insert("alicates");
+		dict.insert("alcazar");
+		
+		
+		
+
+	}
+	
+	
 
 	/* Método de inserción de una nueva palabra en el diccionario */
 	public void insert(String word) {
 		/* Insertamos la palabra a partir del nodo raíz del árbol */
-		insertInTree(word, this.dict);
+		word = word.trim();
+
+		if (word.length() != 0) {
+			insertInTree(word, this.dict);
+		}
 	}
 
 	/* Método privado llamado por el anterior */
@@ -28,50 +52,45 @@ public class Dictionary {
 		GTreeIF<Node> nuevo = new GTree<Node>();
 		boolean noEncontrado = true;
 		int posicion = 1;
+		boolean noEstaWN = true;
 
 		if (word.length() == 0) {
-
-			nuevo.setRoot(new WordNode());
-			node.addChild(1, nuevo);
-
-		} else {
-
 			if (node.getNumChildren() > 0) {
-
+				if (node.getChild(1).getRoot().getNodo() == "WN") {
+					noEstaWN = false;
+				}
+			}
+			if (noEstaWN) {
+				nuevo.setRoot(new WordNode());
+				node.addChild(1, nuevo);
+			}
+		} else {
+			if (node.getNumChildren() > 0) {
 				for (int i = 1; i <= node.getNumChildren(); i++) {
-
 					if (node.getChild(i).getRoot().getNodo().equals(String.valueOf(word.charAt(0)))) {
-
 						nuevo = node.getChild(i);
 						noEncontrado = false;
 						break;
-
 					}
 					if (node.getChild(i).getRoot().getNodo().compareToIgnoreCase(String.valueOf(word.charAt(0))) > 0) {
 						if (node.getChild(i).isLeaf()) {
 							posicion = i + 1;
-
 						} else {
 							posicion = i;
 						}
 						noEncontrado = true;
 						break;
-
 					} else {
 						posicion = node.getNumChildren() + 1;
 					}
-
 				}
 				if (noEncontrado) {
 					nuevo.setRoot(new LetterNode(String.valueOf(word.charAt(0))));
 					node.addChild(posicion, nuevo);
 				}
-
 			} else {
-
 				nuevo.setRoot(new LetterNode(String.valueOf(word.charAt(0))));
 				node.addChild(posicion, nuevo);
-				//node.addChild((node.getNumChildren() + 1), nuevo);
 			}
 			insertInTree(word.substring(1), nuevo);
 		}
@@ -86,9 +105,28 @@ public class Dictionary {
 
 	/* Método privado llamado por el anterior */
 	private void searchInTree(String sequence, String word, GTreeIF<Node> node, WordList salida) {
-		// ...
+				
+		for (int i=1; i <= sequence.length(); i++) {
+			
+			for (int j=1; j<=node.getNumChildren();j++) {
+				
+				if (node.getChild(j).getRoot().getNodo().equalsIgnoreCase(String.valueOf(sequence.charAt(0)))) {
+					word = word + String.valueOf(sequence.charAt(0));
+					node=node.getChild(j);		
+					break;
+				}
+				
+				if (node.getChild(j).getRoot().getNodo() == "WN") {
+					salida.add(word);
+				}
+			}
+			sequence.substring(i, i);
+			
+		}
+		searchInTree(sequence, word, node, salida);
+		
+		
 	}
-
 	/*
 	 * Método público de búsqueda de todas las palabras de tamaño size a partir de
 	 * una secuencia
@@ -104,42 +142,4 @@ public class Dictionary {
 		// ...
 	}
 
-	private void insertInTreefunciona(String word, GTreeIF<Node> node) {
-
-		GTreeIF<Node> nuevo = new GTree<Node>();
-		boolean noEncontrado = true;
-
-		if (word.length() == 0) {
-
-			nuevo.setRoot(new WordNode());
-			node.addChild((node.getNumChildren() + 1), nuevo);
-
-		} else {
-
-			if (node.getNumChildren() > 0) {
-
-				for (int i = 1; i <= node.getNumChildren(); i++) {
-
-					if (node.getChild(i).getRoot().getNodo().equals(String.valueOf(word.charAt(0)))) {
-
-						nuevo = node.getChild(i);
-						noEncontrado = false;
-						break;
-
-					}
-
-				}
-				if (noEncontrado) {
-					nuevo.setRoot(new LetterNode(String.valueOf(word.charAt(0))));
-					node.addChild((node.getNumChildren() + 1), nuevo);
-				}
-
-			} else {
-
-				nuevo.setRoot(new LetterNode(String.valueOf(word.charAt(0))));
-				node.addChild((node.getNumChildren() + 1), nuevo);
-			}
-			insertInTree(word.substring(1), nuevo);
-		}
-	}
 }

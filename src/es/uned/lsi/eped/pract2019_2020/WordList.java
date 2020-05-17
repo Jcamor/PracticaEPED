@@ -12,8 +12,8 @@ public class WordList {
 	
 	public void add(String word) { //No lo tengo claro y creo q no es asi 
 
-		WordListN listaPalabras = new WordListN(word.length());
-		wordList.insert(word.length(), listaPalabras);
+		WordListN listaPalabrasMismoTamanio = new WordListN(word.length());
+		wordList.insert(word.length(), listaPalabrasMismoTamanio);
 
 	}
 	

@@ -24,7 +24,7 @@ public class WordListN {
 	
 	public int getWordSize() {
 
-		return size;
+		return this.size;
 		
 	}
 	
