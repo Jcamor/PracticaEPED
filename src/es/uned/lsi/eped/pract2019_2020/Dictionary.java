@@ -17,24 +17,27 @@ public class Dictionary {
 		this.dict = new GTree<Node>();
 		this.dict.setRoot(new RootNode());
 	}
-	
-	public static void main(String[] args) {
-		
-		Dictionary dict = new Dictionary();
-		
-		dict.insert("anfibio");
-		dict.insert("alcantarilla");
-		dict.insert("alcantarillado");
-		dict.insert("bicicleta");
-		dict.insert("alicates");
-		dict.insert("alcazar");
-		
-		
-		
 
+	public static void main(String[] args) {
+
+		Dictionary dict = new Dictionary();
+
+		dict.insert("casa");
+		dict.insert("caso");
+		dict.insert("casco");
+		dict.insert("caos");
+		dict.insert("saco");
+		dict.insert("casos");
+		dict.insert("cosa");
+		dict.insert("ocas");
+		dict.insert("asco");
+		dict.insert("soca");
+		dict.insert("ocaso");
+
+		WordList wordListSalida = dict.search("cascao");
+
+		System.out.println("Salida en el main " + wordListSalida.toString());
 	}
-	
-	
 
 	/* Método de inserción de una nueva palabra en el diccionario */
 	public void insert(String word) {
@@ -105,28 +108,44 @@ public class Dictionary {
 
 	/* Método privado llamado por el anterior */
 	private void searchInTree(String sequence, String word, GTreeIF<Node> node, WordList salida) {
-				
-		for (int i=1; i <= sequence.length(); i++) {
-			
-			for (int j=1; j<=node.getNumChildren();j++) {
-				
-				if (node.getChild(j).getRoot().getNodo().equalsIgnoreCase(String.valueOf(sequence.charAt(0)))) {
-					word = word + String.valueOf(sequence.charAt(0));
-					node=node.getChild(j);		
+		boolean finWN = false;
+		
+		for (int i = 1; i <= node.getNumChildren(); i++) {
+
+			for (int j = 1; j <= sequence.length() && finWN==false ; j++) {
+
+				// if (node.getNumChildren() != 0) {
+
+				if (node.getChild(i).getRoot().getNodo().equalsIgnoreCase(String.valueOf(sequence.charAt(j)))) {
+					word = word.concat(String.valueOf(sequence.charAt(j)));
+					sequence = sequence.replaceFirst(String.valueOf(sequence.charAt(j)), "");
+					node = node.getChild(i);
+					searchInTree(sequence, word, node, salida);
 					break;
 				}
-				
-				if (node.getChild(j).getRoot().getNodo() == "WN") {
+
+				if (node.getChild(i).getRoot().getNodo() == "WN") {
 					salida.add(word);
+					finWN=true;
+					//break;
+
 				}
+				/*if (sequence.length() == 0) {
+				
+					break;
+				}
+				// }
+				//searchInTree(sequence1, word1, node, salida);*/
 			}
-			sequence.substring(i, i);
-			
+			System.out.println("sequence = " + sequence);
+			System.out.println("word = " + word);
+			System.out.println();
+			//searchInTree(sequence1, word1, node, salida);
+
 		}
-		searchInTree(sequence, word, node, salida);
-		
-		
+		//searchInTree(sequence, word, node, salida);
 	}
+
 	/*
 	 * Método público de búsqueda de todas las palabras de tamaño size a partir de
 	 * una secuencia

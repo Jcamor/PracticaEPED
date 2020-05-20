@@ -18,7 +18,7 @@ public class WordListN {
 	
 	public void add(String word) {
 		
-		wordListN.insert((wordListN.size()+1), word);
+		wordListN.insert(wordListN.size()+1, word);
 				
 	}
 	

@@ -6,15 +6,17 @@ import es.uned.lsi.eped.DataStructures.ListIF;
 public class WordList {
 	private ListIF<WordListN> wordList;
 	
+	
 	public WordList() {
 		this.wordList = new List<WordListN>();
 	}
 	
 	public void add(String word) { //No lo tengo claro y creo q no es asi 
 
-		WordListN listaPalabrasMismoTamanio = new WordListN(word.length());
-		wordList.insert(word.length(), listaPalabrasMismoTamanio);
-
+		WordListN listaPalabras = new WordListN(word.length());
+		listaPalabras.add(word);
+		wordList.insert(wordList.size()+1,listaPalabras);
+		
 	}
 	
 	public String toString() {
