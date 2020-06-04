@@ -1,6 +1,11 @@
 package es.uned.lsi.eped.pract2019_2020;
 
-import es.uned.lsi.eped.DataStructures.*;
+import es.uned.lsi.eped.DataStructures.GTree;
+import es.uned.lsi.eped.DataStructures.GTreeIF;
+import es.uned.lsi.eped.DataStructures.List;
+import es.uned.lsi.eped.DataStructures.ListIF;
+import es.uned.lsi.eped.DataStructures.Queue;
+import es.uned.lsi.eped.DataStructures.QueueIF;
 
 public class Dictionary {
 
@@ -30,14 +35,8 @@ public class Dictionary {
 		dict.insert("ocaso");
 
 		WordList wordListSalida = dict.search("cascao");
-		WordListN wordNSalida = dict.search("cascao", 4);
-	
 
-		System.out.println("Salida desde el main: ");
-		System.out.println(wordListSalida.toString());
-		System.out.println("Salida desde el main: con WordListN ");
-		System.out.println(wordNSalida.toString());
-
+		System.out.println("Salida en el main " + wordListSalida.toString());
 	}
 
 	/* Método de inserción de una nueva palabra en el diccionario */
@@ -56,50 +55,47 @@ public class Dictionary {
 		GTreeIF<Node> nuevo = new GTree<Node>();
 		boolean noEncontrado = true;
 		int posicion = 1;
-		String letraHijo;
+		boolean noEstaWN = true;
 
 		if (word.length() == 0) {
 			if (node.getNumChildren() > 0) {
-				if (node.getChild(1).getRoot().getNodo() != "WN") { // comprobamos q no haya palabras repetidas
-					nuevo.setRoot(new WordNode());
-					node.addChild(1, nuevo);
+				if (node.getChild(1).getRoot().getNodo() == "WN") {
+					noEstaWN = false;
 				}
-			} else {
+			}
+			if (noEstaWN) {
 				nuevo.setRoot(new WordNode());
 				node.addChild(1, nuevo);
 			}
 		} else {
-			String letra = String.valueOf(word.charAt(0));
 			if (node.getNumChildren() > 0) {
-				for (int i = 1; i <= node.getNumChildren(); i++) { // Recorremos los hijos
-					letraHijo = node.getChild(i).getRoot().getNodo(); // Sacamos letra del nodo
-					if (letraHijo.equals(letra)) {
+				for (int i = 1; i <= node.getNumChildren(); i++) {
+					if (node.getChild(i).getRoot().getNodo().equals(String.valueOf(word.charAt(0)))) {
 						nuevo = node.getChild(i);
-						noEncontrado = false; // si lo encuentra ponemos a false el booleano
+						noEncontrado = false;
 						break;
 					}
-					if (letraHijo.compareToIgnoreCase(letra) > 0) { // para ordenarlo si la letra que entra es menor que
-																	// la del hijo
-						if (node.getChild(i).isLeaf()) { // Comprobamos que si hay un WN ya se vaya por la derecha
+					if (node.getChild(i).getRoot().getNodo().compareToIgnoreCase(String.valueOf(word.charAt(0))) > 0) {
+						if (node.getChild(i).isLeaf()) {
 							posicion = i + 1;
 						} else {
 							posicion = i;
 						}
-						noEncontrado = true; // si no lo encuentra ponemos a true el booleano
+						noEncontrado = true;
 						break;
 					} else {
-						posicion = node.getNumChildren() + 1; // si la letra q entra es mayor que la del hijo
+						posicion = node.getNumChildren() + 1;
 					}
 				}
-				if (noEncontrado) { // comprobamos q no lo hay encontrado para añadirlo
-					nuevo.setRoot(new LetterNode(letra));
+				if (noEncontrado) {
+					nuevo.setRoot(new LetterNode(String.valueOf(word.charAt(0))));
 					node.addChild(posicion, nuevo);
 				}
-			} else { // al no tener hijo lo metemos en la primera posición
-				nuevo.setRoot(new LetterNode(letra));
-				node.addChild(1, nuevo);
+			} else {
+				nuevo.setRoot(new LetterNode(String.valueOf(word.charAt(0))));
+				node.addChild(posicion, nuevo);
 			}
-			insertInTree(word.substring(1), nuevo); // hacemos la llamada recursiva
+			insertInTree(word.substring(1), nuevo);
 		}
 	}
 
@@ -112,21 +108,26 @@ public class Dictionary {
 
 	/* Método privado llamado por el anterior */
 	private void searchInTree(String sequence, String word, GTreeIF<Node> node, WordList salida) {
-		String letraHijo;
-		String wordAux;
-		String sequenceAux;
-		GTreeIF<Node> nodeAux;
 
 		for (int i = 1; i <= node.getNumChildren(); i++) {
-			letraHijo = node.getChild(i).getRoot().getNodo();
-			if (sequence.contains(letraHijo)) {
-				wordAux = word.concat(letraHijo);
-				sequenceAux = sequence.replaceFirst(letraHijo, "");
-				nodeAux = node.getChild(i);
-				searchInTree(sequenceAux, wordAux, nodeAux, salida);
-			} else if (letraHijo == "WN") {
-				salida.add(word);
+
+			for (int j = 1; j <= sequence.length() /* && finWN==false */ ; j++) {
+
+				if (node.getChild(i).getRoot().getNodo().equalsIgnoreCase(String.valueOf(sequence.charAt(j)))) {
+					word = word.concat(String.valueOf(sequence.charAt(j)));
+					sequence = sequence.replaceFirst(String.valueOf(sequence.charAt(j)), "");
+					node = node.getChild(i);
+					searchInTree(sequence, word, node, salida);
+					break;
+				}
+				if (node.getChild(i).getRoot().getNodo() == "WN") {
+					salida.add(word);
+					break;
+				}
 			}
+			System.out.println("sequence = " + sequence);
+			System.out.println("word = " + word);
+			System.out.println();
 
 		}
 	}
@@ -143,25 +144,33 @@ public class Dictionary {
 
 	/* Método privado llamado por el anterior */
 	private void searchInTreeN(String sequence, String word, GTreeIF<Node> node, WordListN salida, int size) {
-		String letraHijo;
-		String wordAux;
-		String sequenceAux;
-		GTreeIF<Node> nodeAux;
+		// ...
+	}
+	
+	
+	
+	private void searchInTreeunapalabra(String sequence, String word, GTreeIF<Node> node, WordList salida) {
 
 		for (int i = 1; i <= node.getNumChildren(); i++) {
-			letraHijo = node.getChild(i).getRoot().getNodo();
-			if (sequence.contains(letraHijo)) {
-				wordAux = word.concat(letraHijo);
-				sequenceAux = sequence.replaceFirst(letraHijo, "");
-				nodeAux = node.getChild(i);
-				searchInTreeN(sequenceAux, wordAux, nodeAux, salida, size);
-			} else if (letraHijo == "WN") {
-				if (word.length() == size) {
+
+			for (int j = 1; j <= sequence.length() /* && finWN==false */ ; j++) {
+
+				if (node.getChild(i).getRoot().getNodo().equalsIgnoreCase(String.valueOf(sequence.charAt(j)))) {
+					word = word.concat(String.valueOf(sequence.charAt(j)));
+					sequence = sequence.replaceFirst(String.valueOf(sequence.charAt(j)), "");
+					node = node.getChild(i);
+					searchInTree(sequence, word, node, salida);
+					break;
+				}
+				if (node.getChild(i).getRoot().getNodo() == "WN") {
 					salida.add(word);
+					break;
 				}
 			}
+			System.out.println("sequence = " + sequence);
+			System.out.println("word = " + word);
+			System.out.println();
 
 		}
 	}
-
 }
